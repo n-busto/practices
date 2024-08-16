@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'com.nbusto.practices'
+version '0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(Test) {
+    enabled = false
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: 'java'
+}
