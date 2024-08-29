@@ -2,10 +2,11 @@ package com.nbusto.mongodb.module;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.nbusto.mongodb.config.EnvResolverYaml;
 import com.nbusto.mongodb.config.Properties;
 import dagger.Module;
 import dagger.Provides;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.env.EnvScalarConstructor;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,7 +20,13 @@ public interface PropertiesModule {
         final var inputStream = PropertiesModule.class.getClassLoader()
                 .getResourceAsStream("properties.yaml");
 
-        return new EnvResolverYaml().load(inputStream);
+        return getYaml().load(inputStream);
+    }
+
+    static Yaml getYaml() {
+        final var yaml = new Yaml(new EnvScalarConstructor());
+        yaml.addImplicitResolver(EnvScalarConstructor.ENV_TAG, EnvScalarConstructor.ENV_FORMAT, "$");
+        return yaml;
     }
 
     @Provides
