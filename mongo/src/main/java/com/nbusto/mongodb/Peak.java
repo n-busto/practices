@@ -10,7 +10,6 @@ import org.bson.Document;
 
 public class Peak {
     public static void main(String[] args) {
-        System.out.println(DaggerPeak_MongoSettings.builder().build().pingNothing().ping());
         try {
             final var result = DaggerPeak_MongoSettings.builder().build().pingService().ping();
             System.out.println("Pinged your deployment. You successfully connected!");
@@ -23,6 +22,5 @@ public class Peak {
     @Component(modules = {ServicesModule.class, MongoModule.class, PropertiesModule.class})
     protected interface MongoSettings {
         PingService<Document> pingService();
-        PingService<String> pingNothing();
     }
 }

@@ -14,9 +14,4 @@ public interface ServicesModule {
     static PingService<Document> getMongoPingModule(MongoClient client) {
         return new MongoPingService(client);
     }
-
-    @Provides
-    static PingService<String> getNothingPingModule() {
-        return () -> "You're not pinging loser";
-    }
 }
