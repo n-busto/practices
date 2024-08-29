@@ -5,19 +5,15 @@ import org.bson.Document;
 
 import javax.inject.Inject;
 
-public class MongoPingService implements PingService<Document> {
-    private final MongoClient client;
+public record MongoPingService(MongoClient client) implements PingService<Document> {
 
     @Inject
-    public MongoPingService(MongoClient client) {
-        this.client = client;
-    }
-
+    public MongoPingService {}
 
     @Override
     public Document ping() {
         return client
                 .getDatabase("admin")
-                .runCommand(new org.bson.Document("ping", 1));
+                .runCommand(new Document("ping", 1));
     }
 }
