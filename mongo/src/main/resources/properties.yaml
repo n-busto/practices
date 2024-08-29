@@ -1,1 +1,2 @@
 app.mongo.connection-string: mongodb+srv://myAtlasDBUser:<db_password>@myatlasclusteredu.nxmfwz3.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU
+app.mongo.password: ${MONGO_PASS}
