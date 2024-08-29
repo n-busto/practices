@@ -6,10 +6,9 @@ import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.nbusto.mongodb.config.Properties;
 import dagger.Module;
 import dagger.Provides;
-
-import java.util.Map;
 
 @Module
 public interface MongoModule {
@@ -21,9 +20,9 @@ public interface MongoModule {
     }
 
     @Provides
-    static MongoClientSettings getMongoSettings(ServerApi server, Map<String, Object> properties) {
+    static MongoClientSettings getMongoSettings(ServerApi server, Properties properties) {
         return MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(properties.get("app.mongo.connection-string").toString()))
+                .applyConnectionString(new ConnectionString(properties.mongo().connectionString()))
                 .serverApi(server)
                 .build();
     }
