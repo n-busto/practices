@@ -2,6 +2,7 @@ package com.nbusto.mongodb;
 
 import com.mongodb.MongoException;
 import com.nbusto.mongodb.module.MongoModule;
+import com.nbusto.mongodb.module.PropertiesModule;
 import com.nbusto.mongodb.module.ServicesModule;
 import com.nbusto.mongodb.services.PingService;
 import dagger.Component;
@@ -19,7 +20,7 @@ public class Peak {
         }
     }
 
-    @Component(modules = {ServicesModule.class, MongoModule.class})
+    @Component(modules = {ServicesModule.class, MongoModule.class, PropertiesModule.class})
     protected interface MongoSettings {
         PingService<Document> pingService();
         PingService<String> pingNothing();

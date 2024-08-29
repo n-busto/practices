@@ -9,10 +9,10 @@ import com.mongodb.client.MongoClients;
 import dagger.Module;
 import dagger.Provides;
 
+import java.util.Map;
+
 @Module
 public interface MongoModule {
-    String CONNECTION_STRING = "mongodb+srv://myAtlasDBUser:<db_password>@myatlasclusteredu.nxmfwz3.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU";
-
     @Provides
     static ServerApi getMongoServer() {
         return ServerApi.builder()
@@ -21,9 +21,9 @@ public interface MongoModule {
     }
 
     @Provides
-    static MongoClientSettings getMongoSettings(ServerApi server) {
+    static MongoClientSettings getMongoSettings(ServerApi server, Map<String, Object> properties) {
         return MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(CONNECTION_STRING))
+                .applyConnectionString(new ConnectionString(properties.get("app.mongo.connection-string").toString()))
                 .serverApi(server)
                 .build();
     }
