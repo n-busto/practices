@@ -7,3 +7,5 @@ include 'patterns:factory'
 include 'patterns:singleton'
 include 'patterns:command'
 include 'Rx-java'
+include 'mongo'
+
