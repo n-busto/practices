@@ -14,19 +14,8 @@ import java.util.Map;
 
 @Module
 public interface PropertiesModule {
+
     // TODO property object method does not replace env vars
-
-    @Provides
-    static Map<String, Object> getProperties() {
-        return getYaml().load(getInputStream());
-    }
-
-    static Yaml getYaml() {
-        final var yaml = new Yaml(new EnvScalarConstructor());
-        yaml.addImplicitResolver(EnvScalarConstructor.ENV_TAG, EnvScalarConstructor.ENV_FORMAT, "$");
-        return yaml;
-    }
-
     @Provides
     static Properties getPropertiesClass() {
         final var mapper = new ObjectMapper(new YAMLFactory());
@@ -38,6 +27,14 @@ public interface PropertiesModule {
         }
 
         return null;
+    }
+
+    @Provides
+    static Map<String, Object> getProperties() {
+        final var yaml = new Yaml(new EnvScalarConstructor());
+        yaml.addImplicitResolver(EnvScalarConstructor.ENV_TAG, EnvScalarConstructor.ENV_FORMAT, "$");
+
+        return yaml.load(getInputStream());
     }
 
     static InputStream getInputStream() {
