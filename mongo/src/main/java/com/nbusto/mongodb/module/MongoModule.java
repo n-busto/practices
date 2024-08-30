@@ -27,6 +27,7 @@ public interface MongoModule {
                 .serverApi(getMongoServer())
                 .build();
     }
+
     static ServerApi getMongoServer() {
         return ServerApi.builder()
                 .version(ServerApiVersion.V1)
