@@ -1,7 +1,3 @@
-plugins {
-    id 'java'
-}
-
 group 'com.nbusto.practices'
 version '0.0-SNAPSHOT'
 
