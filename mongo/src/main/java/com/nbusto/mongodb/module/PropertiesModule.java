@@ -7,12 +7,14 @@ import dagger.Provides;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.env.EnvScalarConstructor;
 
+import javax.inject.Singleton;
 import java.io.InputStream;
 import java.util.Map;
 
 @Module
 public interface PropertiesModule {
 
+    @Singleton
     @Provides
     static Properties getPropertiesFromMap() {
         final var mapper = new ObjectMapper();

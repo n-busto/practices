@@ -10,25 +10,26 @@ import com.nbusto.mongodb.config.Properties;
 import dagger.Module;
 import dagger.Provides;
 
+import javax.inject.Singleton;
+
 @Module
 public interface MongoModule {
+
+    @Singleton
     @Provides
+    static MongoClient getMongoClient(Properties properties) {
+        return MongoClients.create(getMongoSettings(properties));
+    }
+
+    static MongoClientSettings getMongoSettings(Properties properties) {
+        return MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString(properties.mongo().calculateConnectionString()))
+                .serverApi(getMongoServer())
+                .build();
+    }
     static ServerApi getMongoServer() {
         return ServerApi.builder()
                 .version(ServerApiVersion.V1)
                 .build();
-    }
-
-    @Provides
-    static MongoClientSettings getMongoSettings(ServerApi server, Properties properties) {
-        return MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(properties.mongo().calculateConnectionString()))
-                .serverApi(server)
-                .build();
-    }
-
-    @Provides
-    static MongoClient getMongoClient(MongoClientSettings settings) {
-        return MongoClients.create(settings);
     }
 }

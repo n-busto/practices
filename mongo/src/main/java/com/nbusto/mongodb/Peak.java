@@ -8,6 +8,8 @@ import com.nbusto.mongodb.services.PingService;
 import dagger.Component;
 import org.bson.Document;
 
+import javax.inject.Singleton;
+
 public class Peak {
     public static void main(String[] args) {
         try {
@@ -19,6 +21,7 @@ public class Peak {
         }
     }
 
+    @Singleton
     @Component(modules = {ServicesModule.class, MongoModule.class, PropertiesModule.class})
     protected interface MongoSettings {
         PingService<Document> pingService();
