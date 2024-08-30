@@ -22,7 +22,7 @@ public interface MongoModule {
     @Provides
     static MongoClientSettings getMongoSettings(ServerApi server, Properties properties) {
         return MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(properties.mongo().connectionString()))
+                .applyConnectionString(new ConnectionString(properties.mongo().calculateConnectionString()))
                 .serverApi(server)
                 .build();
     }
