@@ -9,6 +9,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.env.EnvScalarConstructor;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 @Module
@@ -17,10 +18,7 @@ public interface PropertiesModule {
 
     @Provides
     static Map<String, Object> getProperties() {
-        final var inputStream = PropertiesModule.class.getClassLoader()
-                .getResourceAsStream("properties.yaml");
-
-        return getYaml().load(inputStream);
+        return getYaml().load(getInputStream());
     }
 
     static Yaml getYaml() {
@@ -34,14 +32,16 @@ public interface PropertiesModule {
         final var mapper = new ObjectMapper(new YAMLFactory());
 
         try {
-            final var inputStream = PropertiesModule.class.getClassLoader()
-                    .getResourceAsStream("properties.yaml");
-
-            return mapper.readValue(inputStream, Properties.class);
+            return mapper.readValue(getInputStream(), Properties.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    static InputStream getInputStream() {
+        return PropertiesModule.class.getClassLoader()
+                .getResourceAsStream("properties.yaml");
     }
 }
