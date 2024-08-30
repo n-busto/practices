@@ -17,13 +17,19 @@ public interface MongoModule {
 
     @Singleton
     @Provides
-    static MongoClient getMongoClient(Properties properties) {
-        return MongoClients.create(getMongoSettings(properties));
+    static MongoClient getMongoClient(ConnectionString connectionString) {
+        return MongoClients.create(getMongoSettings(connectionString));
     }
 
-    static MongoClientSettings getMongoSettings(Properties properties) {
+    @Singleton
+    @Provides
+    static ConnectionString getConnectionString(Properties properties) {
+        return new ConnectionString(properties.mongo().calculateConnectionString());
+    }
+
+    static MongoClientSettings getMongoSettings(ConnectionString connectionString) {
         return MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(properties.mongo().calculateConnectionString()))
+                .applyConnectionString(connectionString)
                 .serverApi(getMongoServer())
                 .build();
     }

@@ -1,6 +1,7 @@
 package com.nbusto.mongodb;
 
 import com.mongodb.MongoException;
+import com.nbusto.mongodb.module.MapperModule;
 import com.nbusto.mongodb.module.MongoModule;
 import com.nbusto.mongodb.module.PropertiesModule;
 import com.nbusto.mongodb.module.ServicesModule;
@@ -22,7 +23,11 @@ public class Peak {
     }
 
     @Singleton
-    @Component(modules = {ServicesModule.class, MongoModule.class, PropertiesModule.class})
+    @Component(modules = {
+            ServicesModule.class,
+            MongoModule.class,
+            PropertiesModule.class,
+            MapperModule.class})
     protected interface MongoSettings {
         PingService<Document> pingService();
     }

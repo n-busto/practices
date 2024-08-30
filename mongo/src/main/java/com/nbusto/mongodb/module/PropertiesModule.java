@@ -16,9 +16,7 @@ public interface PropertiesModule {
 
     @Singleton
     @Provides
-    static Properties getPropertiesFromMap() {
-        final var mapper = new ObjectMapper();
-
+    static Properties getPropertiesFromMap(ObjectMapper mapper) {
         try {
             return mapper.convertValue(getProperties(), Properties.class);
         }catch (IllegalArgumentException e) {
