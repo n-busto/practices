@@ -16,15 +16,15 @@ public interface PropertiesModule {
 
     @Singleton
     @Provides
-    static Properties getPropertiesFromMap(ObjectMapper mapper) {
+    static Properties getProperties(ObjectMapper mapper) {
         try {
-            return mapper.convertValue(getProperties(), Properties.class);
+            return mapper.convertValue(getPropertyMap(), Properties.class);
         }catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }
 
-    static Map<String, Object> getProperties() {
+    static Map<String, Object> getPropertyMap() {
         final var yaml = new Yaml(new EnvScalarConstructor());
         yaml.addImplicitResolver(EnvScalarConstructor.ENV_TAG, EnvScalarConstructor.ENV_FORMAT, "$");
 
