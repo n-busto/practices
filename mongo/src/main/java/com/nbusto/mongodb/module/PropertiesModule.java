@@ -22,10 +22,8 @@ public interface PropertiesModule {
         try {
             return mapper.convertValue(getProperties(), Properties.class);
         }catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        return null;
     }
 
     static Map<String, Object> getProperties() {
