@@ -5,7 +5,7 @@ import com.nbusto.mongodb.module.MapperModule;
 import com.nbusto.mongodb.module.MongoModule;
 import com.nbusto.mongodb.module.PropertiesModule;
 import com.nbusto.mongodb.module.ServicesModule;
-import com.nbusto.mongodb.services.PingService;
+import com.nbusto.mongodb.services.ping.PingService;
 import dagger.Component;
 import org.bson.Document;
 
