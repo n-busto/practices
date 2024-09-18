@@ -10,14 +10,17 @@ import com.nbusto.mongodb.module.ServicesModule;
 import com.nbusto.mongodb.services.find.MongoFindService;
 import com.nbusto.mongodb.services.ping.PingService;
 import com.nbusto.mongodb.services.retrieve.MongoRetrieveService;
+import com.nbusto.mongodb.services.update.MongoUpdateService;
 import dagger.Component;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 public class Peak {
     private final static Bson QUERY = Filters.eq("account_id", "1");
+    private final static Bson UPDATES  = Updates.combine(Updates.set("account_status","active"),Updates.inc("balance",100));
 
     public static void main(String[] args) {
         try {
@@ -27,6 +30,8 @@ public class Peak {
 
             System.out.println(DaggerPeak_MongoSettings.builder().build().mongoFindService().find(QUERY));
             System.out.println(DaggerPeak_MongoSettings.builder().build().mongoRetrieveService().retrieve(QUERY));
+            System.out.println(DaggerPeak_MongoSettings.builder().build().mongoBulkUpdateService().update(QUERY, UPDATES));
+            System.out.println(DaggerPeak_MongoSettings.builder().build().mongoSingleUpdateService().update(QUERY, UPDATES));
         } catch (MongoException e) {
             e.printStackTrace();
         }
@@ -42,5 +47,9 @@ public class Peak {
         PingService<Document> pingService();
         MongoFindService mongoFindService();
         MongoRetrieveService mongoRetrieveService();
+        @Named("mongoBulkUpdate")
+        MongoUpdateService mongoBulkUpdateService();
+        @Named("mongoSingleUpdate")
+        MongoUpdateService mongoSingleUpdateService();
     }
 }
