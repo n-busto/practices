@@ -1,11 +1,11 @@
 package com.nbusto.patterns.command.devices;
 
 public interface GardenLight {
-    void setDuskTime();
+  void setDuskTime();
 
-    void setDawnTime();
+  void setDawnTime();
 
-    void manualOn();
+  void manualOn();
 
-    void manualOff();
+  void manualOff();
 }

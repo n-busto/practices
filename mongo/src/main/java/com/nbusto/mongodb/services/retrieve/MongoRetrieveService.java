@@ -6,5 +6,5 @@ import org.bson.conversions.Bson;
 import java.util.List;
 
 public interface MongoRetrieveService {
-    List<Document> retrieve(Bson query);
+  List<Document> retrieve(Bson query);
 }

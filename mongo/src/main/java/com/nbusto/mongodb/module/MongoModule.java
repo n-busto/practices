@@ -15,28 +15,28 @@ import javax.inject.Singleton;
 @Module
 public interface MongoModule {
 
-    @Singleton
-    @Provides
-    static MongoClient getMongoClient(ConnectionString connectionString) {
-        return MongoClients.create(getMongoSettings(connectionString));
-    }
+  @Singleton
+  @Provides
+  static MongoClient getMongoClient(ConnectionString connectionString) {
+    return MongoClients.create(getMongoSettings(connectionString));
+  }
 
-    @Singleton
-    @Provides
-    static ConnectionString getConnectionString(Properties properties) {
-        return new ConnectionString(properties.mongo().calculateConnectionString());
-    }
+  @Singleton
+  @Provides
+  static ConnectionString getConnectionString(Properties properties) {
+    return new ConnectionString(properties.mongo().calculateConnectionString());
+  }
 
-    static MongoClientSettings getMongoSettings(ConnectionString connectionString) {
-        return MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .serverApi(getMongoServer())
-                .build();
-    }
+  static MongoClientSettings getMongoSettings(ConnectionString connectionString) {
+    return MongoClientSettings.builder()
+      .applyConnectionString(connectionString)
+      .serverApi(getMongoServer())
+      .build();
+  }
 
-    static ServerApi getMongoServer() {
-        return ServerApi.builder()
-                .version(ServerApiVersion.V1)
-                .build();
-    }
+  static ServerApi getMongoServer() {
+    return ServerApi.builder()
+      .version(ServerApiVersion.V1)
+      .build();
+  }
 }

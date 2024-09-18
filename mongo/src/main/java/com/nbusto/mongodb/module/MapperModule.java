@@ -7,8 +7,8 @@ import dagger.Provides;
 @Module
 public interface MapperModule {
 
-    @Provides
-    static ObjectMapper getObjectMapper() {
-        return new ObjectMapper();
-    }
+  @Provides
+  static ObjectMapper getObjectMapper() {
+    return new ObjectMapper();
+  }
 }

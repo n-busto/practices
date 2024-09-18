@@ -14,25 +14,25 @@ import java.util.Map;
 @Module
 public interface PropertiesModule {
 
-    @Singleton
-    @Provides
-    static Properties getProperties(ObjectMapper mapper) {
-        try {
-            return mapper.convertValue(getPropertyMap(), Properties.class);
-        }catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        }
+  @Singleton
+  @Provides
+  static Properties getProperties(ObjectMapper mapper) {
+    try {
+      return mapper.convertValue(getPropertyMap(), Properties.class);
+    } catch (IllegalArgumentException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    static Map<String, Object> getPropertyMap() {
-        final var yaml = new Yaml(new EnvScalarConstructor());
-        yaml.addImplicitResolver(EnvScalarConstructor.ENV_TAG, EnvScalarConstructor.ENV_FORMAT, "$");
+  static Map<String, Object> getPropertyMap() {
+    final var yaml = new Yaml(new EnvScalarConstructor());
+    yaml.addImplicitResolver(EnvScalarConstructor.ENV_TAG, EnvScalarConstructor.ENV_FORMAT, "$");
 
-        return yaml.load(getInputStream());
-    }
+    return yaml.load(getInputStream());
+  }
 
-    static InputStream getInputStream() {
-        return PropertiesModule.class.getClassLoader()
-                .getResourceAsStream("properties.yaml");
-    }
+  static InputStream getInputStream() {
+    return PropertiesModule.class.getClassLoader()
+      .getResourceAsStream("properties.yaml");
+  }
 }

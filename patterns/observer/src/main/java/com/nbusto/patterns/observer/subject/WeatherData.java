@@ -6,44 +6,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherData implements Subject<WeatherData> {
-    private Float temperature;
-    private Float humidity;
-    private Float pressure;
-    private final List<Observer<WeatherData>> observers = new ArrayList<>();
+  private final List<Observer<WeatherData>> observers = new ArrayList<>();
+  private Float temperature;
+  private Float humidity;
+  private Float pressure;
 
-    public Float getTemperature() {
-        return temperature;
-    }
+  public Float getTemperature() {
+    return temperature;
+  }
 
-    public Float getHumidity() {
-        return humidity;
-    }
+  public Float getHumidity() {
+    return humidity;
+  }
 
-    public Float getPressure() {
-        return pressure;
-    }
+  public Float getPressure() {
+    return pressure;
+  }
 
-    @Override
-    public List<Observer<WeatherData>> getObservers() {
-        return observers;
-    }
+  @Override
+  public List<Observer<WeatherData>> getObservers() {
+    return observers;
+  }
 
-    @Override
-    public void registerObserver(Observer<WeatherData> observer) {
-        observers.add(observer);
-        observer.setSubject(this);
-    }
+  @Override
+  public void registerObserver(Observer<WeatherData> observer) {
+    observers.add(observer);
+    observer.setSubject(this);
+  }
 
-    @Override
-    public void removeObserver(Observer<WeatherData> observer) {
-        observers.remove(observer);
-        observer.setSubject(null);
-    }
+  @Override
+  public void removeObserver(Observer<WeatherData> observer) {
+    observers.remove(observer);
+    observer.setSubject(null);
+  }
 
-    public void measurementsChanged(Float temperature, Float humidity, Float pressure) {
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.pressure = pressure;
-        notifyObservers();
-    }
+  public void measurementsChanged(Float temperature, Float humidity, Float pressure) {
+    this.temperature = temperature;
+    this.humidity = humidity;
+    this.pressure = pressure;
+    notifyObservers();
+  }
 }

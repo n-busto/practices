@@ -1,11 +1,11 @@
 package com.nbusto.patterns.command.devices;
 
 public interface HotTub {
-    void circulate();
+  void circulate();
 
-    void jetsOn();
+  void jetsOn();
 
-    void jetsOff();
+  void jetsOff();
 
-    void setTemperature();
+  void setTemperature();
 }

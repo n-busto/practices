@@ -8,10 +8,15 @@ import com.nbusto.patterns.factory.ingredients.sauce.Sauce;
 import com.nbusto.patterns.factory.ingredients.veggies.Veggie;
 
 public interface PizzaIngredientFactory {
-    Dough createDough();
-    Sauce createSauce();
-    Cheese createCheese();
-    Veggie[] createVeggies();
-    Pepperoni createPepperoni();
-    Clam createClams();
+  Dough createDough();
+
+  Sauce createSauce();
+
+  Cheese createCheese();
+
+  Veggie[] createVeggies();
+
+  Pepperoni createPepperoni();
+
+  Clam createClams();
 }

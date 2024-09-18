@@ -1,15 +1,15 @@
 package com.nbusto.patterns.command.devices;
 
 public interface Stereo {
-    void on();
+  void on();
 
-    void off();
+  void off();
 
-    void setCD();
+  void setCD();
 
-    void setDVD();
+  void setDVD();
 
-    void setRadio();
+  void setRadio();
 
-    void setVolume();
+  void setVolume();
 }

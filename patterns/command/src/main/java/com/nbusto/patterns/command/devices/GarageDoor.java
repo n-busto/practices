@@ -1,13 +1,13 @@
 package com.nbusto.patterns.command.devices;
 
 public interface GarageDoor {
-    void up();
+  void up();
 
-    void down();
+  void down();
 
-    void stop();
+  void stop();
 
-    void lightOn();
+  void lightOn();
 
-    void lightOff();
+  void lightOff();
 }

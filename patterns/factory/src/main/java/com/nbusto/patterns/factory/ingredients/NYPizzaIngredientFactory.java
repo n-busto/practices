@@ -13,33 +13,33 @@ import com.nbusto.patterns.factory.ingredients.sauce.Sauce;
 import com.nbusto.patterns.factory.ingredients.veggies.*;
 
 public class NYPizzaIngredientFactory implements PizzaIngredientFactory {
-    @Override
-    public Dough createDough() {
-        return new ThinCrustDough();
-    }
+  @Override
+  public Dough createDough() {
+    return new ThinCrustDough();
+  }
 
-    @Override
-    public Sauce createSauce() {
-        return new MarinaraSauce();
-    }
+  @Override
+  public Sauce createSauce() {
+    return new MarinaraSauce();
+  }
 
-    @Override
-    public Cheese createCheese() {
-        return new ReggianoCheese();
-    }
+  @Override
+  public Cheese createCheese() {
+    return new ReggianoCheese();
+  }
 
-    @Override
-    public Veggie[] createVeggies() {
-        return new Veggie[]{new Garlic(), new Onion(), new Mushroom(), new RedPepper()};
-    }
+  @Override
+  public Veggie[] createVeggies() {
+    return new Veggie[]{new Garlic(), new Onion(), new Mushroom(), new RedPepper()};
+  }
 
-    @Override
-    public Pepperoni createPepperoni() {
-        return new SlicedPepperoni();
-    }
+  @Override
+  public Pepperoni createPepperoni() {
+    return new SlicedPepperoni();
+  }
 
-    @Override
-    public Clam createClams() {
-        return new FreshClam();
-    }
+  @Override
+  public Clam createClams() {
+    return new FreshClam();
+  }
 }

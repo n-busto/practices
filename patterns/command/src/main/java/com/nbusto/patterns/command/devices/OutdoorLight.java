@@ -1,7 +1,7 @@
 package com.nbusto.patterns.command.devices;
 
 public interface OutdoorLight {
-    void on();
+  void on();
 
-    void off();
+  void off();
 }

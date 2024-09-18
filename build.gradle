@@ -2,17 +2,17 @@ group 'com.nbusto.practices'
 version '0.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 tasks.withType(Test) {
-    enabled = false
+  enabled = false
 }
 
 subprojects {
-    repositories {
-        mavenCentral()
-    }
+  repositories {
+    mavenCentral()
+  }
 
-    apply plugin: 'java'
+  apply plugin: 'java'
 }

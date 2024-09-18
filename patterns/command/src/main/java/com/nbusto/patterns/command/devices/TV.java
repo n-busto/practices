@@ -1,11 +1,11 @@
 package com.nbusto.patterns.command.devices;
 
 public interface TV {
-    void on();
+  void on();
 
-    void off();
+  void off();
 
-    void setInputChannel();
+  void setInputChannel();
 
-    void setVolume();
+  void setVolume();
 }

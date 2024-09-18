@@ -1,13 +1,13 @@
 package com.nbusto.patterns.command.devices;
 
 public interface CeilingFan {
-    void high();
+  void high();
 
-    void medium();
+  void medium();
 
-    void low();
+  void low();
 
-    void off();
+  void off();
 
-    double getSpeed();
+  double getSpeed();
 }

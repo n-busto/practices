@@ -5,8 +5,8 @@ import com.nbusto.patterns.decorator.Component;
 import java.math.BigDecimal;
 
 public class Decaf implements Component {
-    @Override
-    public BigDecimal cost() {
-        return BigDecimal.valueOf(1.05);
-    }
+  @Override
+  public BigDecimal cost() {
+    return BigDecimal.valueOf(1.05);
+  }
 }

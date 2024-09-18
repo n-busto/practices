@@ -5,12 +5,12 @@ import com.nbusto.patterns.strategy.behaviours.quack.QuackBehaviour;
 import com.nbusto.patterns.strategy.behaviours.swim.RegularSwimBehaviour;
 
 public class MallardDuck extends Duck {
-    public MallardDuck() {
-        super(new FlyWithWingsBehaviour(), new QuackBehaviour(), new RegularSwimBehaviour());
-    }
+  public MallardDuck() {
+    super(new FlyWithWingsBehaviour(), new QuackBehaviour(), new RegularSwimBehaviour());
+  }
 
-    @Override
-    public String display() {
-        return "mallard duck";
-    }
+  @Override
+  public String display() {
+    return "mallard duck";
+  }
 }

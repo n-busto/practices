@@ -6,7 +6,7 @@ import com.nbusto.patterns.decorator.Decorator;
 import java.math.BigDecimal;
 
 public class Mocha extends Decorator {
-    protected Mocha(Component wrappedObject) {
-        super(wrappedObject, BigDecimal.valueOf(.20));
-    }
+  protected Mocha(Component wrappedObject) {
+    super(wrappedObject, BigDecimal.valueOf(.20));
+  }
 }

@@ -1,44 +1,44 @@
 package com.nbusto.patterns.singleton;
 
 public class ChocolateBoilerMultithread {
-    private static volatile ChocolateBoilerMultithread INSTANCE;
+  private static volatile ChocolateBoilerMultithread INSTANCE;
 
-    private boolean empty;
-    private boolean boiled;
+  private boolean empty;
+  private boolean boiled;
 
-    private ChocolateBoilerMultithread() {
-        empty = true;
-        boiled = false;
-    }
+  private ChocolateBoilerMultithread() {
+    empty = true;
+    boiled = false;
+  }
 
-    public static ChocolateBoilerMultithread getInstance() {
+  public static ChocolateBoilerMultithread getInstance() {
+    if (INSTANCE == null) {
+      synchronized (ChocolateBoilerMultithread.class) {
         if (INSTANCE == null) {
-            synchronized (ChocolateBoilerMultithread.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ChocolateBoilerMultithread();
-                }
-            }
+          INSTANCE = new ChocolateBoilerMultithread();
         }
-
-        return INSTANCE;
+      }
     }
 
-    public void fill() {
-        if (empty) {
-            empty = false;
-            boiled = false;
-        }
-    }
+    return INSTANCE;
+  }
 
-    public void drain() {
-        if (!empty && boiled) {
-            empty = true;
-        }
+  public void fill() {
+    if (empty) {
+      empty = false;
+      boiled = false;
     }
+  }
 
-    public void boil() {
-        if (!empty && !boiled) {
-            boiled = true;
-        }
+  public void drain() {
+    if (!empty && boiled) {
+      empty = true;
     }
+  }
+
+  public void boil() {
+    if (!empty && !boiled) {
+      boiled = true;
+    }
+  }
 }

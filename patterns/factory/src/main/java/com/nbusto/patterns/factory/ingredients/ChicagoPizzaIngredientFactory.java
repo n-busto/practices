@@ -10,36 +10,39 @@ import com.nbusto.patterns.factory.ingredients.pepperoni.Pepperoni;
 import com.nbusto.patterns.factory.ingredients.pepperoni.SlicedPepperoni;
 import com.nbusto.patterns.factory.ingredients.sauce.PlumTomatoSauce;
 import com.nbusto.patterns.factory.ingredients.sauce.Sauce;
-import com.nbusto.patterns.factory.ingredients.veggies.*;
+import com.nbusto.patterns.factory.ingredients.veggies.BlackOlives;
+import com.nbusto.patterns.factory.ingredients.veggies.EggPlant;
+import com.nbusto.patterns.factory.ingredients.veggies.Spinach;
+import com.nbusto.patterns.factory.ingredients.veggies.Veggie;
 
 public class ChicagoPizzaIngredientFactory implements PizzaIngredientFactory {
-    @Override
-    public Dough createDough() {
-        return new ThickCrustDough();
-    }
+  @Override
+  public Dough createDough() {
+    return new ThickCrustDough();
+  }
 
-    @Override
-    public Sauce createSauce() {
-        return new PlumTomatoSauce();
-    }
+  @Override
+  public Sauce createSauce() {
+    return new PlumTomatoSauce();
+  }
 
-    @Override
-    public Cheese createCheese() {
-        return new MozzarellaCheese();
-    }
+  @Override
+  public Cheese createCheese() {
+    return new MozzarellaCheese();
+  }
 
-    @Override
-    public Veggie[] createVeggies() {
-        return new Veggie[]{new Spinach(), new BlackOlives(), new EggPlant()};
-    }
+  @Override
+  public Veggie[] createVeggies() {
+    return new Veggie[]{new Spinach(), new BlackOlives(), new EggPlant()};
+  }
 
-    @Override
-    public Pepperoni createPepperoni() {
-        return new SlicedPepperoni();
-    }
+  @Override
+  public Pepperoni createPepperoni() {
+    return new SlicedPepperoni();
+  }
 
-    @Override
-    public Clam createClams() {
-        return new FrozenClam();
-    }
+  @Override
+  public Clam createClams() {
+    return new FrozenClam();
+  }
 }

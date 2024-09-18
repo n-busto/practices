@@ -6,14 +6,15 @@ import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-public record BankAccountBulkMongoUpdateService(MongoCollection<Document> collection) implements MongoUpdateService {
+public record BankAccountBulkMongoUpdateService
+  (MongoCollection<Document> collection) implements MongoUpdateService {
 
-    public BankAccountBulkMongoUpdateService(MongoClient client) {
-        this(client.getDatabase("bank").getCollection("accounts"));
-    }
+  public BankAccountBulkMongoUpdateService(MongoClient client) {
+    this(client.getDatabase("bank").getCollection("accounts"));
+  }
 
-    @Override
-    public UpdateResult update(Bson query, Bson updates) {
-        return collection.updateMany(query, updates);
-    }
+  @Override
+  public UpdateResult update(Bson query, Bson updates) {
+    return collection.updateMany(query, updates);
+  }
 }

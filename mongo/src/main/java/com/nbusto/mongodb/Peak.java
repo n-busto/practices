@@ -19,37 +19,41 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 public class Peak {
-    private final static Bson QUERY = Filters.eq("account_id", "1");
-    private final static Bson UPDATES  = Updates.combine(Updates.set("account_status","active"),Updates.inc("balance",100));
+  private final static Bson QUERY = Filters.eq("account_id", "1");
+  private final static Bson UPDATES = Updates.combine(Updates.set("account_status", "active"), Updates.inc("balance", 100));
 
-    public static void main(String[] args) {
-        try {
-            final var result = DaggerPeak_MongoSettings.builder().build().pingService().ping();
-            System.out.println("Pinged your deployment. You successfully connected!");
-            System.out.println(result);
+  public static void main(String[] args) {
+    try {
+      final var result = DaggerPeak_MongoSettings.builder().build().pingService().ping();
+      System.out.println("Pinged your deployment. You successfully connected!");
+      System.out.println(result);
 
-            System.out.println(DaggerPeak_MongoSettings.builder().build().mongoFindService().find(QUERY));
-            System.out.println(DaggerPeak_MongoSettings.builder().build().mongoRetrieveService().retrieve(QUERY));
-            System.out.println(DaggerPeak_MongoSettings.builder().build().mongoBulkUpdateService().update(QUERY, UPDATES));
-            System.out.println(DaggerPeak_MongoSettings.builder().build().mongoSingleUpdateService().update(QUERY, UPDATES));
-        } catch (MongoException e) {
-            e.printStackTrace();
-        }
+      System.out.println(DaggerPeak_MongoSettings.builder().build().mongoFindService().find(QUERY));
+      System.out.println(DaggerPeak_MongoSettings.builder().build().mongoRetrieveService().retrieve(QUERY));
+      System.out.println(DaggerPeak_MongoSettings.builder().build().mongoBulkUpdateService().update(QUERY, UPDATES));
+      System.out.println(DaggerPeak_MongoSettings.builder().build().mongoSingleUpdateService().update(QUERY, UPDATES));
+    } catch (MongoException e) {
+      e.printStackTrace();
     }
+  }
 
-    @Singleton
-    @Component(modules = {
-            ServicesModule.class,
-            MongoModule.class,
-            PropertiesModule.class,
-            MapperModule.class})
-    protected interface MongoSettings {
-        PingService<Document> pingService();
-        MongoFindService mongoFindService();
-        MongoRetrieveService mongoRetrieveService();
-        @Named("mongoBulkUpdate")
-        MongoUpdateService mongoBulkUpdateService();
-        @Named("mongoSingleUpdate")
-        MongoUpdateService mongoSingleUpdateService();
-    }
+  @Singleton
+  @Component(modules = {
+    ServicesModule.class,
+    MongoModule.class,
+    PropertiesModule.class,
+    MapperModule.class})
+  protected interface MongoSettings {
+    PingService<Document> pingService();
+
+    MongoFindService mongoFindService();
+
+    MongoRetrieveService mongoRetrieveService();
+
+    @Named("mongoBulkUpdate")
+    MongoUpdateService mongoBulkUpdateService();
+
+    @Named("mongoSingleUpdate")
+    MongoUpdateService mongoSingleUpdateService();
+  }
 }

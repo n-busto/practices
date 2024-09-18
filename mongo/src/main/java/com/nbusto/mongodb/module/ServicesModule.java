@@ -19,30 +19,30 @@ import javax.inject.Named;
 @Module
 public interface ServicesModule {
 
-    @Provides
-    static PingService<Document> getMongoPingModule(MongoClient client) {
-        return new MongoPingService(client);
-    }
+  @Provides
+  static PingService<Document> getMongoPingModule(MongoClient client) {
+    return new MongoPingService(client);
+  }
 
-    @Provides
-    static MongoFindService getMongoFindService(MongoClient client) {
-        return new BankAccountMongoFindService(client);
-    }
+  @Provides
+  static MongoFindService getMongoFindService(MongoClient client) {
+    return new BankAccountMongoFindService(client);
+  }
 
-    @Provides
-    static MongoRetrieveService getMongoRetrieveService(MongoClient client) {
-        return new BankAccountMongoRetrieveService(client);
-    }
+  @Provides
+  static MongoRetrieveService getMongoRetrieveService(MongoClient client) {
+    return new BankAccountMongoRetrieveService(client);
+  }
 
-    @Provides
-    @Named("mongoBulkUpdate")
-    static MongoUpdateService getMongoBulkUpdateService( MongoClient client) {
-        return new BankAccountBulkMongoUpdateService(client);
-    }
+  @Provides
+  @Named("mongoBulkUpdate")
+  static MongoUpdateService getMongoBulkUpdateService(MongoClient client) {
+    return new BankAccountBulkMongoUpdateService(client);
+  }
 
-    @Provides
-    @Named("mongoSingleUpdate")
-    static MongoUpdateService getMongoSingleUpdateService( MongoClient client) {
-        return new BankAccountSingleMongoUpdateService(client);
-    }
+  @Provides
+  @Named("mongoSingleUpdate")
+  static MongoUpdateService getMongoSingleUpdateService(MongoClient client) {
+    return new BankAccountSingleMongoUpdateService(client);
+  }
 }

@@ -10,77 +10,77 @@ import java.util.concurrent.TimeUnit;
 
 public class Disposable {
 
-    public static void main(String[] args) {
-        disposableExample1();
-        disposableExample2();
-        disposableExample3();
+  public static void main(String[] args) {
+    disposableExample1();
+    disposableExample2();
+    disposableExample3();
+  }
+
+  private static void disposableExample1() {
+    final var seconds = Observable
+      .interval(1, TimeUnit.SECONDS);
+
+    final var disposable = seconds
+      .subscribe(System.out::println);
+
+    if (disposable.isDisposed()) {
+      disposable.dispose();
     }
+  }
 
-    private static void disposableExample1() {
-        final var seconds = Observable
-                .interval(1, TimeUnit.SECONDS);
+  private static void disposableExample2() {
+    final var seconds = Observable
+      .interval(1, TimeUnit.SECONDS);
 
-        final var disposable = seconds
-                .subscribe(System.out::println);
+    final var compositeDisposable = new CompositeDisposable();
 
-        if (disposable.isDisposed()) {
-            disposable.dispose();
-        }
-    }
+    seconds.subscribe(new Observer<>() {
+      @Override
+      public void onSubscribe(io.reactivex.rxjava3.disposables.@NonNull Disposable d) {
+        compositeDisposable.add(d);
+      }
 
-    private static void disposableExample2() {
-        final var seconds = Observable
-                .interval(1, TimeUnit.SECONDS);
+      @Override
+      public void onNext(@NonNull Long aLong) {
 
-        final var compositeDisposable = new CompositeDisposable();
+      }
 
-        seconds.subscribe(new Observer<>() {
-            @Override
-            public void onSubscribe(io.reactivex.rxjava3.disposables.@NonNull Disposable d) {
-                compositeDisposable.add(d);
-            }
+      @Override
+      public void onError(@NonNull Throwable e) {
 
-            @Override
-            public void onNext(@NonNull Long aLong) {
+      }
 
-            }
+      @Override
+      public void onComplete() {
 
-            @Override
-            public void onError(@NonNull Throwable e) {
+      }
+    });
 
-            }
+    compositeDisposable.dispose();
+  }
 
-            @Override
-            public void onComplete() {
+  private static void disposableExample3() {
+    final var seconds = Observable
+      .interval(1, TimeUnit.SECONDS);
 
-            }
-        });
+    final var resourceObserver = new ResourceObserver<Long>() {
+      @Override
+      public void onNext(@NonNull Long o) {
+        System.out.println("Item: " + o);
+      }
 
-        compositeDisposable.dispose();
-    }
+      @Override
+      public void onError(@NonNull Throwable e) {
 
-    private static void disposableExample3() {
-        final var seconds = Observable
-                .interval(1, TimeUnit.SECONDS);
+      }
 
-        final var resourceObserver = new ResourceObserver<Long>() {
-            @Override
-            public void onNext(@NonNull Long o) {
-                System.out.println("Item: " + o);
-            }
+      @Override
+      public void onComplete() {
 
-            @Override
-            public void onError(@NonNull Throwable e) {
+      }
+    };
 
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        };
-
-        seconds.subscribe(resourceObserver);
-        resourceObserver.dispose();
-    }
+    seconds.subscribe(resourceObserver);
+    resourceObserver.dispose();
+  }
 }

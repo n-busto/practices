@@ -6,7 +6,7 @@ import com.nbusto.patterns.decorator.Decorator;
 import java.math.BigDecimal;
 
 public class Whip extends Decorator {
-    protected Whip(Component wrappedObject) {
-        super(wrappedObject, BigDecimal.valueOf(.10));
-    }
+  protected Whip(Component wrappedObject) {
+    super(wrappedObject, BigDecimal.valueOf(.10));
+  }
 }

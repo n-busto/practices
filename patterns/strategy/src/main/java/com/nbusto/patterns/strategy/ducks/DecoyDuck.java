@@ -5,12 +5,12 @@ import com.nbusto.patterns.strategy.behaviours.quack.MuteBehaviour;
 import com.nbusto.patterns.strategy.behaviours.swim.SwimNoWayBehaviour;
 
 public class DecoyDuck extends Duck {
-    public DecoyDuck() {
-        super(new FlyNoWayBehaviour(), new MuteBehaviour(), new SwimNoWayBehaviour());
-    }
+  public DecoyDuck() {
+    super(new FlyNoWayBehaviour(), new MuteBehaviour(), new SwimNoWayBehaviour());
+  }
 
-    @Override
-    public String display() {
-        return "decoy duck";
-    }
+  @Override
+  public String display() {
+    return "decoy duck";
+  }
 }

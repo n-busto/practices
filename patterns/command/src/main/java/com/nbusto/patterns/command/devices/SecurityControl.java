@@ -1,7 +1,7 @@
 package com.nbusto.patterns.command.devices;
 
 public interface SecurityControl {
-    void arm();
+  void arm();
 
-    void disarm();
+  void disarm();
 }
