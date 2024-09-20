@@ -6,7 +6,8 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
 public record Properties(
-  @JsonProperty("default-charset") Charset defaultCharset,
+  @JsonProperty(value = "default-charset", defaultValue = "UTF-8")
+  Charset defaultCharset,
   Mongo mongo) {
 
   public record Mongo(
