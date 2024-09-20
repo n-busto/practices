@@ -1,3 +1,4 @@
+default-charset: UTF-8
 mongo:
   connection-string: mongodb+srv://<username>:<db_password>@myatlasclusteredu.nxmfwz3.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU
   username: myAtlasDBUser

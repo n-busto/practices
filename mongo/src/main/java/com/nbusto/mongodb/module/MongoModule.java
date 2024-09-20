@@ -24,7 +24,9 @@ public interface MongoModule {
   @Singleton
   @Provides
   static ConnectionString getConnectionString(Properties properties) {
-    return new ConnectionString(properties.mongo().calculateConnectionString());
+    return new ConnectionString(
+      properties.mongo()
+        .calculateConnectionString(properties.defaultCharset()));
   }
 
   static MongoClientSettings getMongoSettings(ConnectionString connectionString) {
