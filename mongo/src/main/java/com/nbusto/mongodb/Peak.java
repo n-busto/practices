@@ -7,6 +7,7 @@ import com.nbusto.mongodb.module.MapperModule;
 import com.nbusto.mongodb.module.MongoModule;
 import com.nbusto.mongodb.module.PropertiesModule;
 import com.nbusto.mongodb.module.ServicesModule;
+import com.nbusto.mongodb.services.MongoTransactionService;
 import com.nbusto.mongodb.services.delete.MongoDeleteService;
 import com.nbusto.mongodb.services.find.MongoFindService;
 import com.nbusto.mongodb.services.ping.PingService;
@@ -23,20 +24,21 @@ public class Peak {
 
   public static void main(String[] args) {
     try {
+      final var resources = DaggerPeak_MongoSettings.builder().build();
       final var result = DaggerPeak_MongoSettings.builder().build().pingService().ping();
       System.out.println("Pinged your deployment. You successfully connected!");
       System.out.println(result);
 
       // Read
-      sout(buildSettings().mongoFindService().find(Filters.empty()));
-      sout(buildSettings().mongoRetrieveService().retrieve(Filters.empty()));
+      sout(resources.mongoFindService().find(Filters.empty()));
+      sout(resources.mongoRetrieveService().retrieve(Filters.empty()));
 
       // Update
-      sout(buildSettings().mongoBulkUpdateService()
+      sout(resources.mongoBulkUpdateService()
         .update(
           Filters.eq("account_id", "1"),
           Updates.set("account_status", "inactive")));
-      sout(buildSettings().mongoSingleUpdateService()
+      sout(resources.mongoSingleUpdateService()
         .update(
           Filters.eq("account_id", "1"),
           Updates.combine(
@@ -44,15 +46,28 @@ public class Peak {
             Updates.inc("balance", 100))));
 
       // Delete
-      sout(buildSettings().mongoBulkDeleteService().delete(Filters.eq("account_id", "-1")));
-      sout(buildSettings().mongoSingleDeleteService().delete(Filters.eq("account_id", "-1")));
+      sout(resources.mongoBulkDeleteService().delete(Filters.eq("account_id", "-1")));
+      sout(resources.mongoSingleDeleteService().delete(Filters.eq("account_id", "-1")));
+
+      // Transaction
+      sout(resources.mongoTransactionService()
+        .execute(() -> {
+          resources.mongoBulkUpdateService()
+            .update(
+              Filters.eq("account_id", "1"),
+              Updates.set("account_status", "inactive"));
+          resources.mongoSingleUpdateService()
+            .update(
+              Filters.eq("account_id", "1"),
+              Updates.combine(
+                Updates.set("account_status", "active"),
+                Updates.inc("balance", 100)));
+
+          return "Updates done";
+        }));
     } catch (MongoException e) {
       e.printStackTrace();
     }
-  }
-
-  private static Peak.MongoSettings buildSettings() {
-    return DaggerPeak_MongoSettings.builder().build();
   }
 
   private static void sout(Object o) {
@@ -83,5 +98,7 @@ public class Peak {
 
     @Named("mongoSingleDelete")
     MongoDeleteService mongoSingleDeleteService();
+
+    MongoTransactionService mongoTransactionService();
   }
 }
