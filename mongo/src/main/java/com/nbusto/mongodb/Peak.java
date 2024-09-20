@@ -7,16 +7,17 @@ import com.nbusto.mongodb.module.MapperModule;
 import com.nbusto.mongodb.module.MongoModule;
 import com.nbusto.mongodb.module.PropertiesModule;
 import com.nbusto.mongodb.module.ServicesModule;
+import com.nbusto.mongodb.services.delete.MongoDeleteService;
 import com.nbusto.mongodb.services.find.MongoFindService;
 import com.nbusto.mongodb.services.ping.PingService;
 import com.nbusto.mongodb.services.retrieve.MongoRetrieveService;
 import com.nbusto.mongodb.services.update.MongoUpdateService;
 import dagger.Component;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.logging.Filter;
 
 public class Peak {
 
@@ -26,8 +27,11 @@ public class Peak {
       System.out.println("Pinged your deployment. You successfully connected!");
       System.out.println(result);
 
+      // Query
       sout(buildSettings().mongoFindService().find(Filters.empty()));
       sout(buildSettings().mongoRetrieveService().retrieve(Filters.empty()));
+
+      // Update
       sout(buildSettings().mongoBulkUpdateService()
         .update(
           Filters.eq("account_id", "1"),
@@ -38,6 +42,10 @@ public class Peak {
           Updates.combine(
             Updates.set("account_status", "active"),
             Updates.inc("balance", 100))));
+
+      // Delete
+      sout(buildSettings().mongoBulkDeleteService().delete(Filters.eq("account_id", "-1")));
+      sout(buildSettings().mongoSingleDeleteService().delete(Filters.eq("account_id", "-1")));
     } catch (MongoException e) {
       e.printStackTrace();
     }
@@ -69,5 +77,11 @@ public class Peak {
 
     @Named("mongoSingleUpdate")
     MongoUpdateService mongoSingleUpdateService();
+
+    @Named("mongoBulkDelete")
+    MongoDeleteService mongoBulkDeleteService();
+
+    @Named("mongoSingleDelete")
+    MongoDeleteService mongoSingleDeleteService();
   }
 }
