@@ -1,6 +1,9 @@
 package com.nbusto.mongodb.module;
 
 import com.mongodb.client.MongoClient;
+import com.nbusto.mongodb.services.delete.BankAccountBulkMongoDeleteService;
+import com.nbusto.mongodb.services.delete.BankAccountSingleMongoDeleteService;
+import com.nbusto.mongodb.services.delete.MongoDeleteService;
 import com.nbusto.mongodb.services.find.BankAccountMongoFindService;
 import com.nbusto.mongodb.services.find.MongoFindService;
 import com.nbusto.mongodb.services.ping.MongoPingService;
@@ -44,5 +47,17 @@ public interface ServicesModule {
   @Named("mongoSingleUpdate")
   static MongoUpdateService getMongoSingleUpdateService(MongoClient client) {
     return new BankAccountSingleMongoUpdateService(client);
+  }
+
+  @Provides
+  @Named("mongoBulkDelete")
+  static MongoDeleteService getMongoBulkDeleteService(MongoClient client) {
+    return new BankAccountBulkMongoDeleteService(client);
+  }
+
+  @Provides
+  @Named("mongoSingleDelete")
+  static MongoDeleteService getMongoSingleDeleteService(MongoClient client) {
+    return new BankAccountSingleMongoDeleteService(client);
   }
 }
