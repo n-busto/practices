@@ -27,7 +27,7 @@ public class Peak {
       System.out.println("Pinged your deployment. You successfully connected!");
       System.out.println(result);
 
-      // Query
+      // Read
       sout(buildSettings().mongoFindService().find(Filters.empty()));
       sout(buildSettings().mongoRetrieveService().retrieve(Filters.empty()));
 
