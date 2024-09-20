@@ -1,6 +1,7 @@
 package com.nbusto.mongodb.module;
 
 import com.mongodb.client.MongoClient;
+import com.nbusto.mongodb.services.MongoTransactionService;
 import com.nbusto.mongodb.services.delete.BankAccountBulkMongoDeleteService;
 import com.nbusto.mongodb.services.delete.BankAccountSingleMongoDeleteService;
 import com.nbusto.mongodb.services.delete.MongoDeleteService;
@@ -59,5 +60,10 @@ public interface ServicesModule {
   @Named("mongoSingleDelete")
   static MongoDeleteService getMongoSingleDeleteService(MongoClient client) {
     return new BankAccountSingleMongoDeleteService(client);
+  }
+
+  @Provides
+  static MongoTransactionService getTransactionService(MongoClient client) {
+    return new MongoTransactionService(client);
   }
 }
