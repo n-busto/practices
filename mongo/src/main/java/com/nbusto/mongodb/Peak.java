@@ -19,8 +19,6 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 public class Peak {
-  private final static Bson QUERY = Filters.eq("account_id", "1");
-  private final static Bson UPDATES = Updates.combine(Updates.set("account_status", "active"), Updates.inc("balance", 100));
 
   public static void main(String[] args) {
     try {
@@ -28,13 +26,29 @@ public class Peak {
       System.out.println("Pinged your deployment. You successfully connected!");
       System.out.println(result);
 
-      System.out.println(DaggerPeak_MongoSettings.builder().build().mongoFindService().find(QUERY));
-      System.out.println(DaggerPeak_MongoSettings.builder().build().mongoRetrieveService().retrieve(QUERY));
-      System.out.println(DaggerPeak_MongoSettings.builder().build().mongoBulkUpdateService().update(QUERY, UPDATES));
-      System.out.println(DaggerPeak_MongoSettings.builder().build().mongoSingleUpdateService().update(QUERY, UPDATES));
+      sout(buildSettings().mongoFindService().find(Filters.empty()));
+      sout(buildSettings().mongoRetrieveService().retrieve(Filters.empty()));
+      sout(buildSettings().mongoBulkUpdateService()
+        .update(
+          Filters.eq("account_id", "1"),
+          Updates.set("account_status", "inactive")));
+      sout(buildSettings().mongoSingleUpdateService()
+        .update(
+          Filters.eq("account_id", "1"),
+          Updates.combine(
+            Updates.set("account_status", "active"),
+            Updates.inc("balance", 100))));
     } catch (MongoException e) {
       e.printStackTrace();
     }
+  }
+
+  private static Peak.MongoSettings buildSettings() {
+    return DaggerPeak_MongoSettings.builder().build();
+  }
+
+  private static void sout(Object o) {
+    System.out.println(o);
   }
 
   @Singleton
