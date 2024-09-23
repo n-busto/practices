@@ -8,6 +8,7 @@ import com.nbusto.mongodb.module.MongoModule;
 import com.nbusto.mongodb.module.PropertiesModule;
 import com.nbusto.mongodb.module.ServicesModule;
 import com.nbusto.mongodb.services.MongoTransactionService;
+import com.nbusto.mongodb.services.create.MongoCreateService;
 import com.nbusto.mongodb.services.delete.MongoDeleteService;
 import com.nbusto.mongodb.services.find.MongoFindService;
 import com.nbusto.mongodb.services.ping.PingService;
@@ -18,7 +19,7 @@ import org.bson.Document;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.logging.Filter;
+import java.util.UUID;
 
 public class Peak {
 
@@ -29,25 +30,30 @@ public class Peak {
       System.out.println("Pinged your deployment. You successfully connected!");
       System.out.println(result);
 
+      // Create
+      final var documentId = UUID.randomUUID().toString();
+      sout(resources.mongoCreateService().insert(new Document("test", documentId)
+        .append("text", "first")));
+
       // Read
-      sout(resources.mongoFindService().find(Filters.empty()));
-      sout(resources.mongoRetrieveService().retrieve(Filters.empty()));
+      sout(resources.mongoFindService().find(Filters.eq("test", documentId)));
+      sout(resources.mongoRetrieveService().retrieve(Filters.eq("test", documentId)));
 
       // Update
       sout(resources.mongoBulkUpdateService()
         .update(
-          Filters.eq("account_id", "1"),
-          Updates.set("account_status", "inactive")));
+          Filters.eq("test", documentId),
+          Updates.set("text", "inactive")));
       sout(resources.mongoSingleUpdateService()
         .update(
-          Filters.eq("account_id", "1"),
+          Filters.eq("test", documentId),
           Updates.combine(
-            Updates.set("account_status", "active"),
-            Updates.inc("balance", 100))));
+            Updates.set("text", "active"),
+            Updates.pull("balance", 100))));
 
       // Delete
-      sout(resources.mongoBulkDeleteService().delete(Filters.eq("account_id", "-1")));
-      sout(resources.mongoSingleDeleteService().delete(Filters.eq("account_id", "-1")));
+      sout(resources.mongoBulkDeleteService().delete(Filters.eq("test", "-1")));
+      sout(resources.mongoSingleDeleteService().delete(Filters.eq("test", "-1")));
 
       // Transaction
       sout(resources.mongoTransactionService()
@@ -82,6 +88,8 @@ public class Peak {
     MapperModule.class})
   protected interface MongoSettings {
     PingService<Document> pingService();
+
+    MongoCreateService mongoCreateService();
 
     MongoFindService mongoFindService();
 

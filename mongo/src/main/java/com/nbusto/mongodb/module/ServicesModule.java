@@ -2,6 +2,8 @@ package com.nbusto.mongodb.module;
 
 import com.mongodb.client.MongoClient;
 import com.nbusto.mongodb.services.MongoTransactionService;
+import com.nbusto.mongodb.services.create.BankAccountMongoCreateService;
+import com.nbusto.mongodb.services.create.MongoCreateService;
 import com.nbusto.mongodb.services.delete.BankAccountBulkMongoDeleteService;
 import com.nbusto.mongodb.services.delete.BankAccountSingleMongoDeleteService;
 import com.nbusto.mongodb.services.delete.MongoDeleteService;
@@ -26,6 +28,11 @@ public interface ServicesModule {
   @Provides
   static PingService<Document> getMongoPingModule(MongoClient client) {
     return new MongoPingService(client);
+  }
+
+  @Provides
+  static MongoCreateService getMongoCreateService(MongoClient client) {
+    return new BankAccountMongoCreateService(client);
   }
 
   @Provides
