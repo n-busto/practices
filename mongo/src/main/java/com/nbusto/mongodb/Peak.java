@@ -23,6 +23,9 @@ import javax.inject.Singleton;
 import java.util.UUID;
 
 import static com.mongodb.client.model.Accumulators.avg;
+import static com.nbusto.mongodb.MongoAggregate.FilterType.EQUALS;
+import static com.nbusto.mongodb.MongoAggregate.FilterType.GREATER_THAN;
+import static java.util.Arrays.asList;
 
 public class Peak {
 
@@ -76,17 +79,29 @@ public class Peak {
         }));
 
       // Aggregate
-      final var aggregate = new MongoAggregate.Builder()
+      launchAggregate(resources, new MongoAggregate.Builder()
         .existsFilter("account_status")
-        .comparativeFilter(MongoAggregate.FilterType.GREATER_THAN, "balance", 100)
+        .comparativeFilter(GREATER_THAN, "balance", 100)
         .group("$account_id", avg("average_balance", "Balance"))
-        .build();
+        .build());
 
-      sout(resources.mongoAggregationService()
-        .launchAggregates(aggregate));
+      launchAggregate(resources, new MongoAggregate.Builder()
+        .comparativeFilter(GREATER_THAN, "balance", 1500)
+        .comparativeFilter(EQUALS, "account_type", "checking")
+        .sortDescending("balance")
+        .include("account_id", "account_type", "balance")
+        .computed("euro_balance",
+          new Document("$divide", asList("$balance", 1.20F)))
+        .excludeId()
+        .consolidateProjection()
+        .build());
     } catch (MongoException e) {
       e.printStackTrace();
     }
+  }
+
+  private static void launchAggregate(MongoSettings settings, MongoAggregate aggregates) {
+    sout(settings.mongoAggregationService().launchAggregates(aggregates));
   }
 
   private static void sout(Object o) {

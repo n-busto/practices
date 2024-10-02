@@ -1,8 +1,7 @@
 package com.nbusto.mongodb;
 
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.BsonField;
-import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.*;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
@@ -26,11 +25,14 @@ public class MongoAggregate {
     GREATER_THAN,
     GREATER_OR_EQUALS_THAN,
     LOWER_THAN,
-    LOWER_OR_EQUALS_THAN;
+    LOWER_OR_EQUALS_THAN
   }
+
+
 
   public static class Builder {
     private final List<Bson> aggregations = new ArrayList<>();
+    private List<Bson> projectionPieces = new ArrayList<>();
 
     public MongoAggregate build() {
       return new MongoAggregate(aggregations);
@@ -55,6 +57,89 @@ public class MongoAggregate {
 
     public Builder group(String groupId, BsonField... fieldAccumulators) {
       aggregations.add(Aggregates.group(groupId, fieldAccumulators));
+      return this;
+    }
+
+    public Builder sortAscending(String... fields) {
+      return orderBy(Sorts.ascending(fields));
+    }
+
+    public Builder sortDescending(String... fields) {
+      return orderBy(Sorts.descending(fields));
+    }
+
+    public Builder orderBy(Bson rule) {
+      aggregations.add(Sorts.orderBy(rule));
+      return this;
+    }
+
+    /**
+     * Include the next fields in the projection.
+     * <p>
+     * WARNING: This projection is introduced in the aggregate only
+     * when {@link #consolidateProjection()} method is called
+     *
+     * @param fields field names to be included
+     * @return this same instance
+     */
+    public Builder include(String... fields) {
+      projectionPieces.add(Projections.include(fields));
+      return this;
+    }
+
+    /**
+     * Exclude the next fields in the projection.
+     * <p>
+     * WARNING: This projection is introduced in the aggregate only
+     * when {@link #consolidateProjection()} method is called
+     *
+     * @param fields field names to be excluded
+     * @return same instance
+     */
+    public Builder excludeId(String... fields) {
+      projectionPieces.add(Projections.exclude(fields));
+      return this;
+    }
+
+    /**
+     * Exclude the id field in the projection.
+     * <p>
+     * WARNING: This projection is introduced in the aggregate only
+     * when {@link #consolidateProjection()} method is called
+     *
+     * @return same instance
+     */
+    public Builder excludeId() {
+      projectionPieces.add(Projections.excludeId());
+      return this;
+    }
+
+    /**
+     * Creates a computed projections field.
+     * <p>
+     * WARNING: This projection is introduced in the aggregate only
+     * when {@link #consolidateProjection()} method is called
+     *
+     * @param fieldName computed field name
+     * @param expression expression to calculate field value
+     * @return same instance
+     */
+    public Builder computed(String fieldName, Document expression) {
+      projectionPieces.add(Projections.computed(fieldName, expression));
+      return this;
+    }
+
+    /**
+     * Uses all the previously introduced projections to create a new
+     * projection aggregate and cleans up the existing projections.
+     *
+     * @return this same instance
+     */
+    public Builder consolidateProjection() {
+      if (!projectionPieces.isEmpty()) {
+        aggregations.add(Aggregates.project(Projections.fields(projectionPieces)));
+        projectionPieces = new ArrayList<>();
+      }
       return this;
     }
   }
