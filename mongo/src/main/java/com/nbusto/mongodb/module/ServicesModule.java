@@ -1,6 +1,8 @@
 package com.nbusto.mongodb.module;
 
 import com.mongodb.client.MongoClient;
+import com.nbusto.mongodb.services.aggregation.BankAccountMongoAggregationService;
+import com.nbusto.mongodb.services.aggregation.MongoAggregationService;
 import com.nbusto.mongodb.services.MongoTransactionService;
 import com.nbusto.mongodb.services.create.BankAccountMongoCreateService;
 import com.nbusto.mongodb.services.create.MongoCreateService;
@@ -72,5 +74,10 @@ public interface ServicesModule {
   @Provides
   static MongoTransactionService getTransactionService(MongoClient client) {
     return new MongoTransactionService(client);
+  }
+
+  @Provides
+  static MongoAggregationService getAggregationService(MongoClient client) {
+    return new BankAccountMongoAggregationService(client);
   }
 }

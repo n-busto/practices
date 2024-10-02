@@ -8,6 +8,7 @@ import com.nbusto.mongodb.module.MongoModule;
 import com.nbusto.mongodb.module.PropertiesModule;
 import com.nbusto.mongodb.module.ServicesModule;
 import com.nbusto.mongodb.services.MongoTransactionService;
+import com.nbusto.mongodb.services.aggregation.MongoAggregationService;
 import com.nbusto.mongodb.services.create.MongoCreateService;
 import com.nbusto.mongodb.services.delete.MongoDeleteService;
 import com.nbusto.mongodb.services.find.MongoFindService;
@@ -20,6 +21,8 @@ import org.bson.Document;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.UUID;
+
+import static com.mongodb.client.model.Accumulators.avg;
 
 public class Peak {
 
@@ -71,6 +74,16 @@ public class Peak {
 
           return "Updates done";
         }));
+
+      // Aggregate
+      final var aggregate = new MongoAggregate.Builder()
+        .existsFilter("account_status")
+        .comparativeFilter(MongoAggregate.FilterType.GREATER_THAN, "balance", 100)
+        .group("$account_id", avg("average_balance", "Balance"))
+        .build();
+
+      sout(resources.mongoAggregationService()
+        .launchAggregates(aggregate));
     } catch (MongoException e) {
       e.printStackTrace();
     }
@@ -108,5 +121,7 @@ public class Peak {
     MongoDeleteService mongoSingleDeleteService();
 
     MongoTransactionService mongoTransactionService();
+
+    MongoAggregationService mongoAggregationService();
   }
 }
